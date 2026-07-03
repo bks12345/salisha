@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salisha Shrestha — Treasury Officer, Prime Commercial Bank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<style>
+  :root{
+    --ink:#0A141A;
+    --ink-2:#11222C;
+    --ivory:#F4EFE6;
+    --paper:#FAF7F2;
+    --brass:#A37F43;
+    --brass-light:#D1B57F;
+    --teal:#1A3E37;
+    --charcoal:#1F262B;
+    --line:#D6CBB3;
+    --muted:#706659;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior: smooth;}
+  body{
+    background:var(--paper);
+    color:var(--charcoal);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x: hidden;
+  }
+  .font-display{font-family:'Fraunces',serif;}
+  .font-mono{font-family:'IBM Plex Mono',monospace;}
+  .text-brass{color:var(--brass);}
+  .bg-ink{background:var(--ink);}
+  
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.75rem;
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    color:var(--brass);
+    display: inline-block;
+  }
+
+  /* GSAP Ready hidden states */
+  .gsap-reveal { opacity: 0; transform: translateY(30px); }
+  .gsap-reveal-left { opacity: 0; transform: translateX(-40px); }
+  .gsap-reveal-right { opacity: 0; transform: translateX(40px); }
+  .gsap-reveal-scale { opacity: 0; transform: scale(0.9) rotate(-3deg); }
+
+  /* Navbar */
+  .navbar-custom{
+    background:rgba(10, 20, 26, 0.92);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    border-bottom: 1px solid rgba(216,189,135,.1);
+  }
+  .navbar-custom.scrolled{
+    padding-top:.6rem!important;
+    padding-bottom:.6rem!important;
+    box-shadow:0 12px 40px rgba(0,0,0,.3);
+  }
+  .navbar-custom .navbar-brand{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    letter-spacing:.02em;
+    color:var(--ivory)!important;
+  }
+  .navbar-custom .nav-link{
+    position:relative;
+    color:rgba(246,241,231,.75)!important;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.78rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:.5rem 1rem!important;
+    transition:color .25s ease;
+  }
+  .navbar-custom .nav-link::after{
+    content:"";
+    position:absolute;
+    left:1rem;right:1rem;bottom:.15rem;
+    height:1px;
+    background:var(--brass-light);
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform .4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .navbar-custom .nav-link:hover{color:var(--brass-light)!important;}
+  .navbar-custom .nav-link:hover::after{transform:scaleX(1);}
+
+  /* HERO */
+  .hero{
+    background:
+      radial-gradient(ellipse 1000px 600px at 85% -10%, rgba(163,127,67,.15), transparent 65%),
+      var(--ink);
+    color:var(--ivory);
+    position:relative;
+    overflow:hidden;
+    border-bottom:1px solid rgba(216,189,135,.15);
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(115deg, rgba(216,189,135,.03) 0px, rgba(216,189,135,.03) 1px, transparent 1px, transparent 34px);
+    pointer-events:none;
+  }
+  .orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(90px);
+    opacity:.25;
+    pointer-events:none;
+  }
+  .orb-1{width:350px;height:350px;background:radial-gradient(circle,var(--brass-light),transparent 70%);top:-100px;left:-60px;}
+  .orb-2{width:300px;height:300px;background:radial-gradient(circle,var(--teal),transparent 70%);bottom:-60px;right:10%;}
+  
+  .statement-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:.5rem;
+    border:1px solid rgba(216,189,135,.35);
+    border-radius:3px;
+    padding:.35rem .85rem;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.7rem;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--brass-light);
+    background: rgba(163,127,67,.05);
+  }
+  .hero h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(2.6rem, 6.5vw, 4.6rem);
+    line-height:1.05;
+    letter-spacing:-.02em;
+  }
+  .hero .role{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(1.2rem,2.5vw,1.6rem);
+    color:var(--brass-light);
+    display:block;
+  }
+
+  /* Ledger lines */
+  .ledger{border-top:1px solid rgba(246,241,231,.12);}
+  .ledger-row{
+    display:flex;
+    align-items:baseline;
+    gap:.6rem;
+    padding:.65rem 0;
+    border-bottom:1px dashed rgba(246,241,231,.12);
+    transition:background-color .3s ease, padding-left .3s ease;
+  }
+  .ledger-row:hover{
+    background-color:rgba(246,241,231,.03);
+    padding-left: .5rem;
+  }
+  .ledger-row .label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.72rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:rgba(246,241,231,.5);
+    white-space:nowrap;
+  }
+  .ledger-row .fill{
+    flex:1;
+    border-bottom:1px dotted rgba(246,241,231,.2);
+    transform:translateY(-4px);
+  }
+  .ledger-row .value{
+    font-family:'Inter',sans-serif;
+    font-weight:500;
+    font-size:.92rem;
+    color:var(--ivory);
+    white-space:nowrap;
+    text-align:right;
+  }
+
+  /* Buttons */
+  .btn-brass{
+    background:var(--brass);
+    border:1px solid var(--brass);
+    color:var(--ink);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.78rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:.75rem 1.6rem;
+    border-radius:3px;
+    font-weight: 500;
+    transition: transform .3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .3s ease, background-color .3s ease;
+  }
+  .btn-brass:hover{
+    background:var(--brass-light);
+    border-color:var(--brass-light);
+    color:var(--ink);
+    transform:translateY(-3px);
+    box-shadow:0 12px 26px rgba(163,127,67,.3);
+  }
+  .btn-outline-ivory{
+    border:1px solid rgba(246,241,231,.4);
+    color:var(--ivory);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.78rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:.75rem 1.6rem;
+    border-radius:3px;
+    transition:transform .3s cubic-bezier(0.16, 1, 0.3, 1), background-color .3s ease, border-color .3s ease;
+  }
+  .btn-outline-ivory:hover{
+    background:rgba(246,241,231,.06);
+    color:var(--brass-light);
+    border-color:var(--brass-light);
+    transform:translateY(-3px);
+  }
+
+  section{padding:6rem 0;}
+  .section-title{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(1.8rem,3.6vw,2.6rem);
+    color:var(--ink);
+  }
+  hr.rule{
+    border:none;border-top:1px solid var(--line);margin:.85rem 0 3rem;
+    transform-origin:left;
+  }
+
+  /* Objective quote block */
+  .objective{
+    border-left:3px solid var(--brass);
+    padding:.5rem 0 .5rem 1.8rem;
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:clamp(1.2rem,2.2vw,1.6rem);
+    line-height:1.6;
+    color:var(--ink-2);
+  }
+
+  /* Experience timeline */
+  .timeline{position:relative;}
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:9px; top:6px; bottom:6px;
+    width:1px;
+    background:rgba(246,241,231,.15);
+  }
+  .tl-item{position:relative;padding-left:2.5rem;padding-bottom:3rem;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-dot{
+    position:absolute; left:0; top:4px;
+    width:19px; height:19px;
+    border-radius:50%;
+    background:var(--ink);
+    border:2px solid var(--brass);
+    z-index: 2;
+  }
+  .tl-dot.filled{background:var(--brass);box-shadow:0 0 0 6px rgba(163,127,67,.25);}
+  .tl-date{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.75rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--brass-light);
+    display:block;
+    margin-bottom:.35rem;
+  }
+  .tl-role{font-family:'Fraunces',serif;font-weight:600;font-size:1.4rem;color:var(--ivory);}
+  .tl-org{color:rgba(246,241,231,.55);font-size:.95rem;margin-bottom:.8rem;}
+
+  /* Education table */
+  .edu-row{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    padding:1.2rem 0;
+    border-bottom:1px solid var(--line);
+    gap:.5rem;
+    transition:background-color .3s cubic-bezier(0.16, 1, 0.3, 1), padding-left .3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .edu-row:hover{background-color:rgba(163,127,67,.04);padding-left:.75rem;}
+  .edu-row:first-of-type{border-top:1px solid var(--line);}
+  .edu-degree{font-family:'Fraunces',serif;font-weight:600;font-size:1.1rem;color:var(--ink);}
+  .edu-board{color:var(--muted);font-size:.88rem;}
+  .edu-score{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600;
+    font-size:.9rem;
+    color:var(--teal);
+    background:rgba(26,62,55,.06);
+    padding:.35rem .8rem;
+    border-radius:3px;
+    white-space:nowrap;
+    transition:transform .3s ease, background-color .3s ease, color .3s ease;
+  }
+  .edu-row:hover .edu-score{background-color:var(--teal);color:var(--ivory);transform:translateY(-2px);}
+  .edu-year{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.88rem;
+    color:var(--brass);
+    width:3.5rem;
+  }
+
+  /* Skills */
+  .skill-panel{
+    background:var(--ivory);
+    border:1px solid var(--line);
+    padding:2.5rem;
+    height:100%;
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+  }
+  .skill-panel h3{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:1.35rem;
+    color:var(--ink);
+    margin-bottom:1.3rem;
+  }
+  .skill-list{list-style:none;padding:0;margin:0;}
+  .skill-list li{
+    display:flex;
+    gap:.7rem;
+    padding:.6rem 0;
+    border-bottom:1px dashed rgba(112,102,89,0.25);
+    font-size:.95rem;
+    transition:padding-left .25s ease;
+  }
+  .skill-list li:hover{padding-left:.5rem;}
+  .skill-list li:last-child{border-bottom:none;}
+  .skill-list i{color:var(--brass);margin-top:.15rem;}
+
+  /* Certification stamps */
+  .stamp{
+    width:140px;height:140px;
+    border-radius:50%;
+    border:2px solid var(--teal);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    margin:0 auto 1.4rem;
+    position:relative;
+    background:repeating-radial-gradient(circle at center, transparent 0 64px, rgba(26,62,55,.03) 65px, transparent 66px);
+  }
+  .stamp::before{
+    content:"";
+    position:absolute;
+    inset:6px;
+    border:1px dashed var(--teal);
+    border-radius:50%;
+  }
+  .stamp .stamp-year{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--teal);
+    display:block;
+  }
+  .stamp .stamp-days{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.65rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .cert-card{text-align:center;padding:1rem;}
+  .cert-title{font-family:'Fraunces',serif;font-weight:600;font-size:1.1rem;color:var(--ink);margin-bottom:.3rem;}
+  .cert-org{color:var(--muted);font-size:.88rem;}
+
+  /* References */
+  .ref-card{
+    border:1px solid var(--line);
+    background:var(--ivory);
+    padding:2rem;
+    height:100%;
+    border-radius: 4px;
+  }
+  .ref-name{font-family:'Fraunces',serif;font-weight:600;font-size:1.2rem;color:var(--ink);}
+  .ref-title{color:var(--muted);font-size:.9rem;margin-bottom:1.1rem;line-height:1.4;}
+  .ref-contact{font-family:'IBM Plex Mono',monospace;font-size:.82rem;color:var(--teal);margin-bottom: 0.25rem;}
+
+  footer{
+    background:var(--ink);
+    color:rgba(246,241,231,.55);
+    padding:4rem 0 2rem;
+    border-top: 1px solid rgba(216,189,135,.1);
+  }
+  footer .brand{
+    font-family:'Fraunces',serif;
+    color:var(--ivory);
+    font-size:1.4rem;
+    font-weight: 500;
+  }
+  footer a{color:var(--brass-light);text-decoration:none;transition:color .2s ease;}
+  footer a:hover{color:var(--ivory);}
+  .footer-line{border-top:1px solid rgba(246,241,231,.08);margin-top:2.5rem;padding-top:1.5rem;font-size:.78rem;font-family:'IBM Plex Mono',monospace;}
+
+  /* Back-to-top */
+  #toTop{
+    position:fixed;
+    right:1.8rem;
+    bottom:1.8rem;
+    width:46px;height:46px;
+    border-radius:50%;
+    background:var(--brass);
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:none;
+    box-shadow:0 8px 24px rgba(0,0,0,.3);
+    opacity:0;
+    transform:translateY(15px) scale(.85);
+    pointer-events:none;
+    transition:opacity .3s, transform .3s, background-color .2s;
+    z-index:999;
+  }
+  #toTop.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+  #toTop:hover{background:var(--brass-light);transform: translateY(-2px);}
+
+  @media (max-width:767px) {
+    section{padding:4rem 0;}
+    .ledger-row{flex-direction: column; gap: 0.1rem; padding: 0.8rem 0;}
+    .ledger-row .fill{display: none;}
+    .ledger-row .value{text-align: left; font-size: 0.95rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top py-3" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="#top">S. Shrestha</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-controls="navMain" aria-expanded="false" aria-label="Toggle navigation" style="border-color:rgba(246,241,231,.3); filter: invert(1);">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#about">Profile</a></li>
+        <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
+        <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
+        <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+        <li class="nav-item"><a class="nav-link" href="#certifications">Certifications</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="container py-5">
+    <div class="row align-items-center py-4 g-5">
+      <div class="col-lg-7 hero-left-content">
+        <span class="statement-tag"><i class="bi bi-bank"></i> Statement of Profile</span>
+        <h1 class="mt-4 mb-2">Salisha<br>Shrestha</h1>
+        <p class="role mb-4">Treasury Officer, Prime Commercial Bank Limited</p>
+        <div class="d-flex flex-wrap gap-3 mb-2 hero-actions">
+          <a href="mailto:Salishashr1996@gmail.com" class="btn btn-brass"><i class="bi bi-envelope me-1"></i> Email</a>
+          <a href="tel:+9779860041860" class="btn btn-outline-ivory"><i class="bi bi-telephone me-1"></i> +977-9860041860</a>
+        </div>
+      </div>
+      <div class="col-lg-5 hero-right-content">
+        <div class="ledger">
+          <div class="ledger-row"><span class="label">Department</span><span class="fill"></span><span class="value">Treasury</span></div>
+          <div class="ledger-row"><span class="label">With PCBL Since</span><span class="fill"></span><span class="value">June 2018</span></div>
+          <div class="ledger-row"><span class="label">Location</span><span class="fill"></span><span class="value">Lazimpat, Kathmandu, Nepal</span></div>
+          <div class="ledger-row"><span class="label">Nationality</span><span class="fill"></span><span class="value">Nepali</span></div>
+          <div class="ledger-row"><span class="label">Languages</span><span class="fill"></span><span class="value">Nepali · English · Newari</span></div>
+          <div class="ledger-row"><span class="label">Highest Degree</span><span class="fill"></span><span class="value">MBA, 3.83 (Excellence)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ABOUT / OBJECTIVE -->
+<section id="about">
+  <div class="container">
+    <span class="eyebrow gsap-reveal">01 · Profile</span>
+    <h2 class="section-title mb-0 mt-2 gsap-reveal">Career Objective</h2>
+    <hr class="rule gsap-rule">
+    <div class="row">
+      <div class="col-lg-9">
+        <p class="objective gsap-reveal">
+          Seeking a challenging career with a progressive and reputed organization that provides an opportunity
+          to capitalize on my technical skills and abilities in the field — and, in turn, to build the
+          success of the company.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="bg-ink text-light">
+  <div class="container">
+    <span class="eyebrow gsap-reveal">02 · Record</span>
+    <h2 class="section-title mb-0 mt-2 gsap-reveal" style="color:var(--ivory);">Work Experience</h2>
+    <hr class="rule gsap-rule" style="border-top-color:rgba(246,241,231,.15);">
+    <div class="timeline gsap-timeline">
+      <div class="tl-item gsap-reveal">
+        <div class="tl-dot filled"></div>
+        <span class="tl-date">June 2018 — Present</span>
+        <div class="tl-role" style="color:var(--ivory);">Treasury Officer</div>
+        <div class="tl-org" style="color:rgba(246,241,231,.55);">Prime Commercial Bank Limited · Treasury Department</div>
+        <ul class="mb-0" style="color:rgba(246,241,231,.8);">
+          <li>Assist with deal approval, settlement and confirmation matching.</li>
+          <li>Ensure all transactions are accurately accounted for in the Core Bank System (CBS).</li>
+        </ul>
+      </div>
+      <div class="tl-item gsap-reveal">
+        <div class="tl-dot"></div>
+        <span class="tl-date">22 June 2017 — 16 August 2017</span>
+        <div class="tl-role" style="color:var(--ivory);">Intern</div>
+        <div class="tl-org" style="color:rgba(246,241,231,.55);">Prime Commercial Bank Limited</div>
+        <ul class="mb-0" style="color:rgba(246,241,231,.8);">
+          <li>Learnt the organizational culture, including how employees work as a team.</li>
+          <li>Acknowledged the importance of behavioural issues inside the organization.</li>
+          <li>Learnt how motivation and job satisfaction directly affect employee performance.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <span class="eyebrow gsap-reveal">03 · Credentials</span>
+    <h2 class="section-title mb-0 mt-2 gsap-reveal">Academic Credentials</h2>
+    <hr class="rule gsap-rule">
+    <div class="edu-container">
+      <div class="edu-row gsap-reveal">
+        <div class="d-flex align-items-center gap-3">
+          <span class="edu-year">2022</span>
+          <div>
+            <div class="edu-degree">Master of Business Administration (MBA)</div>
+            <div class="edu-board">Purbanchal University</div>
+          </div>
+        </div>
+        <span class="edu-score">3.83 · A Grade, First with Excellence</span>
+      </div>
+      <div class="edu-row gsap-reveal">
+        <div class="d-flex align-items-center gap-3">
+          <span class="edu-year">2017</span>
+          <div>
+            <div class="edu-degree">Bachelor's Degree in Business Administration (BBA)</div>
+            <div class="edu-board">Tribhuvan University</div>
+          </div>
+        </div>
+        <span class="edu-score">3.78 · A Grade, First Division with Distinction</span>
+      </div>
+      <div class="edu-row gsap-reveal">
+        <div class="d-flex align-items-center gap-3">
+          <span class="edu-year">2013</span>
+          <div>
+            <div class="edu-degree">+2</div>
+            <div class="edu-board">HSEB</div>
+          </div>
+        </div>
+        <span class="edu-score">76.40% · Distinction</span>
+      </div>
+      <div class="edu-row gsap-reveal">
+        <div class="d-flex align-items-center gap-3">
+          <span class="edu-year">2011</span>
+          <div>
+            <div class="edu-degree">10th Grade (SLC)</div>
+            <div class="edu-board">Nepal Government</div>
+          </div>
+        </div>
+        <span class="edu-score">81.63% · Distinction</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" style="background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="container">
+    <span class="eyebrow gsap-reveal">04 · Capability</span>
+    <h2 class="section-title mb-0 mt-2 gsap-reveal">Technical Summary &amp; Key Behaviours</h2>
+    <hr class="rule gsap-rule">
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="skill-panel gsap-reveal-left">
+          <h3><i class="bi bi-cpu me-2 text-brass"></i>Technical Summary</h3>
+          <ul class="skill-list">
+            <li><i class="bi bi-check2"></i> Basic computer proficiency — MS Word, Excel, PowerPoint</li>
+            <li><i class="bi bi-check2"></i> Advanced Excel</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="skill-panel gsap-reveal-right">
+          <h3><i class="bi bi-people me-2 text-brass"></i>Key Behaviours &amp; Skills</h3>
+          <ul class="skill-list">
+            <li><i class="bi bi-check2"></i> Job handling: multi-tasking and working extended hours</li>
+            <li><i class="bi bi-check2"></i> Open-minded, with a continuous learning attitude</li>
+            <li><i class="bi bi-check2"></i> Trustworthy in handling confidential and proprietary information</li>
+            <li><i class="bi bi-check2"></i> Strong interpersonal relationships with co-workers, customers, seniors and stakeholders</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="container">
+    <span class="eyebrow gsap-reveal">05 · Verified</span>
+    <h2 class="section-title mb-0 mt-2 gsap-reveal">Training &amp; Certificates</h2>
+    <hr class="rule gsap-rule">
+    <div class="row g-4 text-center">
+      <div class="col-md-4">
+        <div class="cert-card gsap-reveal-scale">
+          <div class="stamp">
+            <div>
+              <span class="stamp-year">2018</span>
+              <span class="stamp-days">6 Days</span>
+            </div>
+          </div>
+          <div class="cert-title">Comprehensive Banking Course</div>
+          <div class="cert-org">National Banking Institute (NBI)</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="cert-card gsap-reveal-scale">
+          <div class="stamp">
+            <div>
+              <span class="stamp-year">2019</span>
+              <span class="stamp-days">2 Days</span>
+            </div>
+          </div>
+          <div class="cert-title">Treasury Back Office Management</div>
+          <div class="cert-org">KFA</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="cert-card gsap-reveal-scale">
+          <div class="stamp">
+            <div>
+              <span class="stamp-year">2023</span>
+              <span class="stamp-days">1 Day</span>
+            </div>
+          </div>
+          <div class="cert-title">Liquidity &amp; Internal Debt Management</div>
+          <div class="cert-org">Nepal Rastra Bank (NRB)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section style="background:var(--ivory);border-top:1px solid var(--line);">
+  <div class="container">
+    <span class="eyebrow gsap-reveal">06 · Endorsement</span>
+    <h2 class="section-title mb-0 mt-2 gsap-reveal">References</h2>
+    <hr class="rule gsap-rule">
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="ref-card gsap-reveal-left">
+          <div class="ref-name">Mr. Kishor Dongol</div>
+          <div class="ref-title">Officiating Head — Treasury Department, Prime Commercial Bank Limited</div>
+          <div class="ref-contact"><i class="bi bi-telephone me-1"></i> +977-9851333979</div>
+          <div class="ref-contact"><i class="bi bi-envelope me-1"></i> kishor.dongol@pcbl.com.np</div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="ref-card gsap-reveal-right">
+          <div class="ref-name">Ms. Mohini Shrestha</div>
+          <div class="ref-title">Senior Officer, Central Office Operation Department, Prime Commercial Bank Limited</div>
+          <div class="ref-contact"><i class="bi bi-telephone me-1"></i> +977-9841551961</div>
+          <div class="ref-contact"><i class="bi bi-envelope me-1"></i> mohini.shrestha@pcbl.com.np</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT / FOOTER -->
+<footer id="contact">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <div class="brand mb-3">Salisha Shrestha</div>
+        <p class="mb-1">Lazimpat, Kathmandu, Nepal</p>
+        <p class="mb-1"><a href="mailto:Salishashr1996@gmail.com">Salishashr1996@gmail.com</a></p>
+        <p class="mb-0"><a href="tel:+9779860041860">+977-9860041860</a></p>
+      </div>
+      <div class="col-lg-6 text-lg-end">
+        <a href="mailto:Salishashr1996@gmail.com" class="btn btn-brass">Get in Touch</a>
+      </div>
+    </div>
+    <div class="footer-line d-flex justify-content-between flex-wrap gap-2">
+      <span>&copy; 2026 Salisha Shrestha. All rights reserved.</span>
+      <span>Treasury Department · Prime Commercial Bank Limited</span>
+    </div>
+  </div>
+</footer>
+
+<button id="toTop" aria-label="Scroll to top"><i class="bi bi-arrow-up"></i></button>
+
+<!-- SCRIPT INCLUSIONS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- GSAP & ScrollTrigger Core Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script>
+  // Register ScrollTrigger plugin safely
+  gsap.registerPlugin(ScrollTrigger);
+
+  // 1. Navbar Behavior
+  const nav = document.getElementById('mainNav');
+  const toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    nav.classList.toggle('scrolled', y > 40);
+    toTop.classList.toggle('show', y > 500);
+  });
+  toTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+  // 2. Hero Component Entrance Timelines
+  window.addEventListener('DOMContentLoaded', () => {
+    const heroTl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1.2 }});
+    
+    // Light ambient background parallax drift
+    gsap.to('.orb-1', { x: 30, y: -20, duration: 8, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+    gsap.to('.orb-2', { x: -40, y: 30, duration: 10, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+
+    heroTl.from('.hero-left-content > *', {
+      opacity: 0,
+      y: 40,
+      stagger: 0.15
+    })
+    .from('.ledger-row', {
+      opacity: 0,
+      x: 30,
+      stagger: 0.08,
+    }, '-=0.8');
+  });
+
+  // 3. Scroll Driven Animations Framework via GSAP
+  
+  // Standard Reveal Staggers
+  document.querySelectorAll('section').forEach((section) => {
+    const reveals = section.querySelectorAll('.gsap-reveal');
+    const rules = section.querySelectorAll('.gsap-rule');
+    const revealsLeft = section.querySelectorAll('.gsap-reveal-left');
+    const revealsRight = section.querySelectorAll('.gsap-reveal-right');
+    const revealsScale = section.querySelectorAll('.gsap-reveal-scale');
+
+    if(reveals.length > 0) {
+      gsap.to(reveals, {
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 82%',
+          toggleActions: 'play none none none'
+        },
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        stagger: 0.12,
+        ease: 'power3.out'
+      });
+    }
+
+    if(rules.length > 0) {
+      gsap.fromTo(rules, 
+        { scaleX: 0 },
+        {
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 85%'
+          },
+          scaleX: 1,
+          duration: 1.4,
+          ease: 'power4.out'
+        }
+      );
+    }
+
+    if(revealsLeft.length > 0) {
+      gsap.to(revealsLeft, {
+        scrollTrigger: { trigger: section, start: 'top 80%' },
+        opacity: 1,
+        x: 0,
+        duration: 1.1,
+        stagger: 0.15,
+        ease: 'power3.out'
+      });
+    }
+
+    if(revealsRight.length > 0) {
+      gsap.to(revealsRight, {
+        scrollTrigger: { trigger: section, start: 'top 80%' },
+        opacity: 1,
+        x: 0,
+        duration: 1.1,
+        stagger: 0.15,
+        ease: 'power3.out'
+      });
+    }
+
+    if(revealsScale.length > 0) {
+      gsap.to(revealsScale, {
+        scrollTrigger: { trigger: section, start: 'top 80%' },
+        opacity: 1,
+        scale: 1,
+        rotation: 0,
+        duration: 1,
+        stagger: 0.12,
+        ease: 'back.out(1.5)'
+      });
+    }
+  });
+
+  // Stamp Hover Interaction (Magnetic-esque response)
+  document.querySelectorAll('.stamp').forEach(stamp => {
+    stamp.addEventListener('mouseenter', () => {
+      gsap.to(stamp, { scale: 1.08, rotation: -5, duration: 0.4, ease: 'back.out(2)' });
+    });
+    stamp.addEventListener('mouseleave', () => {
+      gsap.to(stamp, { scale: 1, rotation: 0, duration: 0.4, ease: 'power2.out' });
+    });
+  });
+</script>
+</body>
+</html>
